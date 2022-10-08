@@ -2,6 +2,11 @@ const { Builder, By, Key, until } = require('selenium-webdriver');
 const SauceLabs = require('saucelabs').default;
 const assert = require('assert');
 const utils = require('./utils');
+const {
+  getSauceLabsAccount,
+  getLatestJobs,
+  updateJobStatus,
+} = require('./helpers');
 
 const SAUCE_USERNAME = process.env.SAUCE_USERNAME;
 const SAUCE_ACCESS_KEY = process.env.SAUCE_ACCESS_KEY;
@@ -82,6 +87,9 @@ describe('Working Sauce', function () {
       await driver.findElement(By.id('your_comments')).getText()
     );
 
-    await driver.quit();
+    const myAccount = getSauceLabsAccount();
+    const jobs = await getLatestJobs(1, myAccount);
+    const latestJob = jobs[0];
+    await updateJobStatus(myAccount, latestJob);
   });
 });
