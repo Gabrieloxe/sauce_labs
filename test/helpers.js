@@ -23,7 +23,6 @@ const getLatestJobs = async (numJobs, myAccount) => {
 const updateJobStatus = async (myAccount, job) => {
   const jobId = job.id;
   const modifiedJob = { ...job, passed: true };
-  console.log('modified job',modifiedJob);
   const update = await myAccount.updateJob(SAUCE_USERNAME, jobId, modifiedJob);
   return update;
 };
